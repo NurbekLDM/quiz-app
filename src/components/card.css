@@ -1,0 +1,36 @@
+.card-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.card-container .question {
+    min-height: 150px; /* Minimum height for the question area */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.card-container .answers {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+@media (max-width: 768px) {
+    .card-container {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .card-container {
+        padding: 10px;
+    }
+}
