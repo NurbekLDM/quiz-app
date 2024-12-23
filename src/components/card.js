@@ -20,7 +20,7 @@ function QuestionPage() {
     const { data: quizData, isLoading: isQueryLoading, error } = useQuery({
         queryKey: ["questions", category, type, difficulty],
         queryFn: () => fetchQuestions(category, type, difficulty),
-        enabled: !!category && !!type && !!difficulty, // Faqat kerakli parametrlar mavjud bo'lsa so'rov yuborish
+        enabled: !!category && !!type && !!difficulty, 
     });
 
     const { addPlayer } = useContext(PlayerContext);
