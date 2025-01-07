@@ -10,7 +10,6 @@ export const PlayerProvider = ({ children }) => {
         let updatedPlayers;
 
         if (existingPlayerIndex !== -1) {
-  
             updatedPlayers = players.map((p, index) => {
                 if (index === existingPlayerIndex) {
                     return {
@@ -21,7 +20,7 @@ export const PlayerProvider = ({ children }) => {
                 return p;
             });
         } else {
-             updatedPlayers = [...players, player];
+            updatedPlayers = [...players, player];
         }
 
         setPlayers(updatedPlayers);
@@ -33,8 +32,18 @@ export const PlayerProvider = ({ children }) => {
         setPlayers(updatedPlayers);
     };
 
+    const getHighestScore = () => {
+        return players.reduce((max, player) => Math.max(max, player.score), 0);
+    };
+
+    const resetScores = () => {
+        const resetPlayers = players.map(player => ({ ...player, score: 0 }));
+        setPlayers(resetPlayers);
+        localStorage.setItem('players', JSON.stringify(resetPlayers));
+    };
+
     return (
-        <PlayerContext.Provider value={{ players, addPlayer, updatePlayers }}>
+        <PlayerContext.Provider value={{ players, addPlayer, updatePlayers, getHighestScore, resetScores }}>
             {children}
         </PlayerContext.Provider>
     );
