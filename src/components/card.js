@@ -28,7 +28,6 @@ function QuestionPage() {
     const [showAnswer, setShowAnswer] = useState(false);
     const [score, setScore] = useState(0);
     const [totalScore, setTotalScore] = useState(0);
-    const [stage, setStage] = useState(1);
     const [countdown, setCountdown] = useState(15);
     const [questions, setQuestions] = useState([]);
 
@@ -114,15 +113,8 @@ function QuestionPage() {
             setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
         } else {
             setTotalScore((prevTotalScore) => prevTotalScore + score);
-            if (stage < 10) {
-                setStage((prevStage) => prevStage + 1);
-                setScore(0);
-                setCurrentQuestionIndex(0);
-                generateQuestions();
-            } else {
-                addPlayer({ name, score: totalScore + score });
-                navigate('/quiz-result', { state: { score: totalScore + score, totalQuestions: questions.length * 10 } });
-            }
+            addPlayer({ name, score: totalScore + score });
+            navigate('/quiz-result', { state: { score: totalScore + score, totalQuestions: questions.length } });
         }
     };
 
@@ -171,7 +163,7 @@ function QuestionPage() {
                     <button
                         onClick={handleNextQuestion}
                         className="py-2.5 px-6 justify-center flex mt-5 text-sm bg-blue-500 text-white rounded-lg cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-blue-700">
-                        {currentQuestionIndex === questions.length - 1 ? (stage < 10 ? "Next Stage" : "Finish") : "Next Question"}
+                        {currentQuestionIndex === questions.length - 1 ? "Finish" : "Next Question"}
                     </button>
                 )}
             </div>
