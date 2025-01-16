@@ -125,7 +125,7 @@ function QuestionPage() {
           <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500 mb-4"></div>
           <p className="text-blue-500 text-xl font-semibold">Yuklanmoqda...</p>
         </div>
-      );
+      ); 
     if (error) return <div>Error: {error.message}</div>;
 
     const currentQuestion = questions[currentQuestionIndex];
