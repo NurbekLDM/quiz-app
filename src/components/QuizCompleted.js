@@ -20,8 +20,8 @@ function QuizCompleted() {
     };
 
     const getFinalMessage = () => {
-        if (score >= 80) return "Siz dahosiz!";
-        if (score >= 50) return "Siz yaxshiroq bajara olasiz!";
+        if (score >= 8) return "Siz dahosiz!";
+        if (score >= 5) return "Siz yaxshiroq bajara olasiz!";
         return "Keyingi safar ko'proq harakat qiling!";
     };
 
