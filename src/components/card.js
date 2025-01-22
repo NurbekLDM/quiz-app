@@ -7,7 +7,6 @@ import './card.css';
 
 const fetchQuestions = async () => {
     const response = await axios.get(`https://restcountries.com/v3.1/all`);
-    console.log(response.data);
     return response.data;
 };
 
@@ -74,7 +73,7 @@ function QuestionPage() {
 
     useEffect(() => {
         if (countdown === 0) {
-            handleNextQuestion(); // Vaqt tugaganda keyingi savolga o'tishi
+            handleNextQuestion();
             return;
         }
 
@@ -86,26 +85,26 @@ function QuestionPage() {
     }, [countdown]);
 
     useEffect(() => {
-        setCountdown(15); // Har yangi savolda qayta o'rnatiladi
+        setCountdown(15);
     }, [currentQuestionIndex]);
 
     useEffect(() => {
         if (score > 0) {
-            localStorage.setItem('quizResult', JSON.stringify({ score: totalScore + score, totalQuestions: questions.length * 10 }));
+            localStorage.setItem('quizResult', JSON.stringify({ score: totalScore + score, totalQuestions: questions.length }));
         }
     }, [score]);
 
     const handleAnswer = (answer) => {
-        if (selectedAnswer) return; // Javob tanlanganda qayta ishlamaslik uchun
+        if (selectedAnswer) return;
         setSelectedAnswer(answer);
         if (answer === questions[currentQuestionIndex].correct_answer) {
             setScore((prevScore) => prevScore + 1);
         }
         setShowAnswer(true);
+        setTimeout(handleNextQuestion, 1000); // Automatically move to the next question after 1 second
     };
 
     const handleNextQuestion = () => {
-      
         setShowAnswer(false);
         setSelectedAnswer(null);
 
@@ -118,14 +117,12 @@ function QuestionPage() {
         }
     };
 
-
-
     if (isLoading || isQueryLoading) return (
         <div className="flex flex-col justify-center items-center h-screen">
-          <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500 mb-4"></div>
-          <p className="text-blue-500 text-xl font-semibold">Yuklanmoqda...</p>
+            <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500 mb-4"></div>
+            <p className="text-blue-500 text-xl font-semibold">Yuklanmoqda...</p>
         </div>
-      ); 
+    ); 
     if (error) return <div>Error: {error.message}</div>;
 
     const currentQuestion = questions[currentQuestionIndex];
@@ -164,13 +161,6 @@ function QuestionPage() {
                         </li>
                     ))}
                 </ul>
-                {showAnswer && (
-                    <button
-                        onClick={handleNextQuestion}
-                        className="py-2.5 px-6 justify-center flex mt-5 text-sm bg-blue-500 text-white rounded-lg cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-blue-700">
-                        {currentQuestionIndex === questions.length - 1 ? "Finish" : "Next Question"}
-                    </button>
-                )}
             </div>
         </div>
     );
