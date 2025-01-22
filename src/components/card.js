@@ -89,16 +89,15 @@ function QuestionPage() {
     }, [currentQuestionIndex]);
 
     useEffect(() => {
-        if (score > 0) {
-            localStorage.setItem('quizResult', JSON.stringify({ score: totalScore + score, totalQuestions: questions.length }));
-        }
-    }, [score]);
+        localStorage.setItem('quizResult', JSON.stringify({ score: totalScore, totalQuestions: questions.length }));
+    }, [totalScore]);
 
     const handleAnswer = (answer) => {
         if (selectedAnswer) return;
         setSelectedAnswer(answer);
         if (answer === questions[currentQuestionIndex].correct_answer) {
             setScore((prevScore) => prevScore + 1);
+            setTotalScore((prevTotalScore) => prevTotalScore + 1); // Update totalScore immediately
         }
         setShowAnswer(true);
         setTimeout(handleNextQuestion, 1000); // Automatically move to the next question after 1 second
@@ -111,9 +110,8 @@ function QuestionPage() {
         if (currentQuestionIndex < questions.length - 1) {
             setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
         } else {
-            setTotalScore((prevTotalScore) => prevTotalScore + score);
-            addPlayer({ name, score: totalScore + score });
-            navigate('/quiz-result', { state: { score: totalScore + score, totalQuestions: questions.length } });
+            addPlayer({ name, score: totalScore });
+            navigate('/quiz-result', { state: { score: totalScore, totalQuestions: questions.length } });
         }
     };
 
@@ -138,7 +136,7 @@ function QuestionPage() {
                     Question {currentQuestionIndex + 1} of {questions.length}
                 </h2>
                 <p className="text-xl text-center mb-6">What is capital of {currentQuestion.country}</p>
-                <img src={currentQuestion.flag} alt="flag" className="mx-auto mb-6" />
+                <img src={currentQuestion.flag} alt="flag" className="mx-auto mb-6" style={{ height: '150px', width: '250px' }} />
                 <p className="text-center text-red-500 text-lg mb-4">Time left: {countdown} seconds</p>
                 <p className="text-center text-lg mb-4">Score: {score}</p>
 

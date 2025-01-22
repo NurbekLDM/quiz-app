@@ -1,18 +1,27 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { PlayerContext } from '../context/PlayerContext';
 
 function QuizCompleted() {
     const navigate = useNavigate();
     const { state } = useLocation();
-    const { score, totalQuestions } = state || JSON.parse(localStorage.getItem('quizResult')) || {};
     const { resetScores } = useContext(PlayerContext);
+    const [score, setScore] = useState(0);
+    const [totalQuestions, setTotalQuestions] = useState(0);
 
     useEffect(() => {
         if (state) {
-            localStorage.setItem('quizResult', JSON.stringify({ score, totalQuestions }));
+            localStorage.setItem('quizResult', JSON.stringify({ score: state.score, totalQuestions: state.totalQuestions }));
         }
     }, [state]);
+
+    useEffect(() => {
+        const quizResult = JSON.parse(localStorage.getItem('quizResult'));
+        if (quizResult) {
+            setScore(quizResult.score);
+            setTotalQuestions(quizResult.totalQuestions);
+        }
+    }, []);
 
     const handlePlayAgain = () => {
         navigate('/quiz');
